@@ -1,14 +1,14 @@
 import getConfig from 'next/config';
 import mysql from 'mysql2/promise';
 import { Sequelize } from 'sequelize';
-import {userModel}  from '../../Models/User.js';
-import {customerModel}  from '../../Models/Customer.js';
-import {courtModel}  from '../../Models/Court.js';
-import {deviceModel}  from '../../Models/Device.js';
-import {integrationModel}  from '../../Models/Integration.js';
-import {matchModel}  from '../../Models/Match.js';
-import {planModel}  from '../../Models/Plan.js';
-import {transactionModel}  from '../../Models/Transaction.js';
+import {userModel}  from '../../models/User.js';
+import {customerModel}  from '../../models/Customer.js';
+import {courtModel}  from '../../models/Court.js';
+import {deviceModel}  from '../../models/Device.js';
+import {integrationModel}  from '../../models/Integration.js';
+import {matchModel}  from '../../models/Match.js';
+import {planModel}  from '../../models/Plan.js';
+import {transactionModel}  from '../../models/Transaction.js';
 
 const { serverRuntimeConfig } = getConfig();
 
@@ -45,6 +45,7 @@ async function initialize() {
     db.Customer.hasMany(db.Transaction);
     db.Customer.hasMany(db.Integration);
     db.Device.belongsTo(db.Court);
+
     // sync all models with database
     await sequelize.sync({ alter: true });
 

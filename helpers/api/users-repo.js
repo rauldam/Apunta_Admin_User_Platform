@@ -15,14 +15,14 @@ export const usersRepo = {
 };
 
 async function authenticate({ username, password }) {
-    
+
     const user = await db.User.scope('withHash').findOne({ where: { username} });
 
     //console.log(user);
     if (!(user && bcrypt.compareSync(password, user.hash))) {
         throw 'Username or password is incorrect';
     }
-    
+
     if(user.active === false){
         throw 'User is not active';
     }
@@ -32,6 +32,7 @@ async function authenticate({ username, password }) {
 
     // remove hash from return value
     const userJson = user.get();
+
     //console.log(userJson);
     delete userJson.hash;
 

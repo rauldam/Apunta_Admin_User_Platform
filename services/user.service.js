@@ -32,10 +32,11 @@ async function login(username, password) {
 
 function logout() {
     alertService.clear();
+
     // remove user from local storage, publish null to user subscribers and redirect to login page
     localStorage.removeItem('user');
     userSubject.next(null);
-    Router.push('/account/login');
+    Router.push('/pages/login');
 }
 
 function isAdmin(){

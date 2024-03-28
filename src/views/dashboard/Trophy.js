@@ -21,17 +21,21 @@ const TrophyImg = styled('img')({
   position: 'absolute'
 })
 
-const Trophy = () => {
+const Trophy = props => {
+
+  const { user } = props;
   // ** Hook
   const theme = useTheme()
   const imageSrc = theme.palette.mode === 'light' ? 'triangle-light.png' : 'triangle-dark.png'
 
+  console.log(user);
+
   return (
     <Card sx={{ position: 'relative' }}>
       <CardContent>
-        <Typography variant='h6'>Congratulations John! 🥳</Typography>
+        <Typography variant='h6'>Congratulations {user ? user.firstName : ''}! 🥳</Typography>
         <Typography variant='body2' sx={{ letterSpacing: '0.25px' }}>
-          Best seller of the month
+          {user ? user.lastName : ''}
         </Typography>
         <Typography variant='h5' sx={{ my: 4, color: 'primary.main' }}>
           $42.8k

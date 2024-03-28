@@ -11,7 +11,7 @@ export const alertService = {
 
 function success(message, showAfterRedirect = false) {
     alertSubject.next({
-        type: 'alert-success',
+        type: 'success',
         message,
         showAfterRedirect
     });
@@ -19,7 +19,7 @@ function success(message, showAfterRedirect = false) {
 
 function error(message, showAfterRedirect = false) {
     alertSubject.next({
-        type: 'alert-danger',
+        type: 'error',
         message,
         showAfterRedirect
     });
@@ -27,7 +27,7 @@ function error(message, showAfterRedirect = false) {
 
 // clear alerts
 function clear() {
-    // if showAfterRedirect flag is true the alert is not cleared 
+    // if showAfterRedirect flag is true the alert is not cleared
     // for one route change (e.g. after successful registration)
     let alert = alertSubject.value;
     if (alert?.showAfterRedirect) {

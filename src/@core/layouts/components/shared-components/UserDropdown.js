@@ -23,6 +23,8 @@ import AccountOutline from 'mdi-material-ui/AccountOutline'
 import MessageOutline from 'mdi-material-ui/MessageOutline'
 import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
 
+import { userService } from 'services'
+
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
   width: 8,
@@ -43,9 +45,12 @@ const UserDropdown = () => {
     setAnchorEl(event.currentTarget)
   }
 
-  const handleDropdownClose = url => {
-    if (url) {
-      router.push(url)
+  const handleDropdownClose = (param) => {
+    if (param ===  'logout') {
+      userService.logout();
+    }
+    if(param === 'profile') {
+      router.push('/account-settings/');
     }
     setAnchorEl(null)
   }
@@ -106,7 +111,7 @@ const UserDropdown = () => {
           </Box>
         </Box>
         <Divider sx={{ mt: 0, mb: 1 }} />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('profile')}>
           <Box sx={styles}>
             <AccountOutline sx={{ marginRight: 2 }} />
             Profile
@@ -144,7 +149,7 @@ const UserDropdown = () => {
           </Box>
         </MenuItem>
         <Divider />
-        <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('/pages/login')}>
+        <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('logout')}>
           <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
           Logout
         </MenuItem>

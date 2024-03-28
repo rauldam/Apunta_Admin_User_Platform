@@ -1,6 +1,8 @@
 // ** React Imports
 import { useState } from 'react'
 
+import { userService } from 'services'
+
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -59,6 +61,8 @@ const TabAccount = () => {
     }
   }
 
+  const user = userService.userValue;
+
   return (
     <CardContent>
       <form>
@@ -88,10 +92,10 @@ const TabAccount = () => {
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Username' placeholder='johnDoe' defaultValue='johnDoe' />
+            <TextField fullWidth label='Username' placeholder='johnDoe' defaultValue={user && user.username} />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Name' placeholder='John Doe' defaultValue='John Doe' />
+            <TextField fullWidth label='Name' placeholder='John Doe' defaultValue={user && user.firstName} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -99,7 +103,7 @@ const TabAccount = () => {
               type='email'
               label='Email'
               placeholder='johnDoe@example.com'
-              defaultValue='johnDoe@example.com'
+              defaultValue={user && user.email}
             />
           </Grid>
           <Grid item xs={12} sm={6}>

@@ -22,12 +22,14 @@ import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
 import DepositWithdraw from 'src/views/dashboard/DepositWithdraw'
 import SalesByCountries from 'src/views/dashboard/SalesByCountries'
 
+import { userService } from 'services'
+
 const Dashboard = () => {
   return (
     <ApexChartWrapper>
       <Grid container spacing={6}>
         <Grid item xs={12} md={4}>
-          <Trophy />
+          <Trophy user={userService.userValue} />
         </Grid>
         <Grid item xs={12} md={8}>
           <StatisticsCard />

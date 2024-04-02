@@ -11,10 +11,10 @@ import DotsVertical from 'mdi-material-ui/DotsVertical'
 
 const CardStatsVertical = props => {
   // ** Props
-  const { title, subtitle, color, icon, stats, trend, trendNumber } = props
+  const { id, title, subtitle, color, icon, stats, trend, trendNumber } = props
 
   return (
-    <Card>
+    <Card key={id}>
       <CardContent>
         <Box sx={{ display: 'flex', marginBottom: 5.5, alignItems: 'flex-start', justifyContent: 'space-between' }}>
           <Avatar sx={{ boxShadow: 3, marginRight: 4, color: 'common.white', backgroundColor: `${color}.main` }}>

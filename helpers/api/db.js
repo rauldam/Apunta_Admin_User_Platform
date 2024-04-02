@@ -9,6 +9,7 @@ import {integrationModel}  from '../../models/Integration.js';
 import {matchModel}  from '../../models/Match.js';
 import {planModel}  from '../../models/Plan.js';
 import {transactionModel}  from '../../models/Transaction.js';
+import {courtsplansModel}  from '../../models/CourtsPlans.js';
 
 const { serverRuntimeConfig } = getConfig();
 
@@ -36,10 +37,15 @@ async function initialize() {
     db.Transaction = transactionModel(sequelize);
     db.Integration = integrationModel(sequelize);
     db.Device = deviceModel(sequelize);
+    db.CourtsPlans = courtsplansModel(sequelize);
+
+
 
     db.User.hasOne(db.Customer);
     db.Customer.hasMany(db.Court);
-    db.Plan.hasMany(db.Court);
+
+    db.Plan.belongsToMany(db.Court, {through: db.CourtsPlans});
+    db.Court.belongsToMany(db.Plan, {through: db.CourtsPlans});
     db.Court.hasMany(db.Match);
     db.Court.hasMany(db.Transaction);
     db.Customer.hasMany(db.Transaction);

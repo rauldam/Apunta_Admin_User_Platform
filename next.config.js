@@ -18,9 +18,39 @@ module.exports = {
         ? 'http://localhost:3000/api' // development api
         : 'http://localhost:3000/api' // production api
   },
+  images: {
+    remotePatterns: [
+      {
+          protocol: 'https',
+          hostname: '**.*.com.es',
+          port: '',
+          pathname: '*',
+      }
+  ],
+},
   experimental: {
     esmExternals: false,
     jsconfigPaths: true // enables it for both jsconfig.json and tsconfig.json
+  },
+  pathUrl: {
+    admin: {
+      users: '/users/',
+      usersid: '/users/[id]/',
+      customers: '/customers/',
+      customersid: '/customers/[id]/',
+      products: '/products/',
+      productsid: '/products/[id]/',
+      orders: '/orders/',
+      ordersid: '/orders/[id]/',
+      orderdetails: '/orderdetails/',
+      orderdetailsid: '/orderdetails/[id]/',
+      dashboard: '/admin/',
+    },
+    public: {
+      login: '/pages/login/',
+      register: '/pages/register/',
+      forgotpassword: '/public/forgotpassword/',
+    }
   },
   webpack: config => {
     config.resolve.alias = {

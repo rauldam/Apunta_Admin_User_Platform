@@ -16,7 +16,7 @@ export const usersRepo = {
 
 async function authenticate({ username, password }) {
 
-    const user = await db.User.scope('withHash').findOne({ where: { username} });
+    const user = await db.User.scope('withHash').findOne({ where: { username}, include: db.Customer });
 
     //console.log(user);
     if (!(user && bcrypt.compareSync(password, user.hash))) {

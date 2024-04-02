@@ -83,7 +83,7 @@ const App = props => {
       // redirect to login page if accessing a private page and not logged in
       setUser(userService.userValue);
       const publicPaths = ['/pages/login/', '/account/register/'];
-      const adminPaths = ['/users', '/users/add','/users/edit/[id]'];
+      const adminPaths = ['/admin/users/', '/admin/users/add/','/admin/users/edit/[id]/','/admin/'];
       const path = url.split('?')[0];
       console.log(path);
       console.log(userService.userValue);
@@ -138,7 +138,7 @@ const App = props => {
           content={`${themeConfig.templateName}`}
         />
         <meta name='keywords' content='' />
-        <meta name='viewport' content='' />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
       </Head>
 
       <SettingsProvider>

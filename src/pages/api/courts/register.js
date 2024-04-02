@@ -1,10 +1,10 @@
-import { apiHandler, courtsRepo } from 'helpers/api';
+import { apiHandler, customerRepo } from 'helpers/api';
 
 export default apiHandler({
     post: register
 });
 
 async function register(req, res) {
-    await courtsRepo.create(req.body);
+    await customerRepo.create(req.body);
     return res.status(200).json({});
 }

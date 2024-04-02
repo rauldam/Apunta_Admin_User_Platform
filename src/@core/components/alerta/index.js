@@ -6,21 +6,18 @@ import { alertService } from 'services';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 
-
-
-
-
 const Alerta = () => {
     const router = useRouter();
     const [alerta, setAlerta] = useState(null);
 
     useEffect(() => {
         // subscribe to new alert notifications
+        console.log(alerta);
         const subscription = alertService.alert.subscribe(alerta => setAlerta(alerta));
 
         // unsubscribe when the component unmounts
         return () => subscription.unsubscribe();
-    }, [alerta, setAlerta]);
+    }, [alerta]);
 
     useEffect(() => {
         // clear alert on location change

@@ -1,5 +1,12 @@
+/* eslint-disable react/jsx-key */
+
+import { useState, useEffect } from 'react';
+
 // ** MUI Imports
+import Box from '@mui/material/Box'
+
 import Grid from '@mui/material/Grid'
+
 
 // ** Icons Imports
 import Poll from 'mdi-material-ui/Poll'
@@ -9,6 +16,8 @@ import BriefcaseVariantOutline from 'mdi-material-ui/BriefcaseVariantOutline'
 
 // ** Custom Components Imports
 import CardStatisticsVerticalComponent from 'src/@core/components/card-statistics/card-stats-vertical'
+import CardUserHome from 'src/@core/components/card-statistics/cards-user-home'
+import Alerta from 'src/@core/components/alerta'
 
 // ** Styled Component Import
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
@@ -22,81 +31,78 @@ import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
 import DepositWithdraw from 'src/views/dashboard/DepositWithdraw'
 import SalesByCountries from 'src/views/dashboard/SalesByCountries'
 
-import { userService } from 'services'
+import { userService, customerService, courtService, alertService } from 'services'
+
+
 
 const Dashboard = () => {
+
+  const [courts, setCourts] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+      courtService.getAllByFk(userService.userValue?.Customer.id).then((x) => {
+        setCourts(x);
+       // console.log(courts)
+        setLoading(false);
+      }).catch(alertService.error);
+
+  },[]);
+
   return (
-    <ApexChartWrapper>
-      <Grid container spacing={6}>
-        <Grid item xs={12} md={4}>
-          <Trophy user={userService.userValue} />
-        </Grid>
-        <Grid item xs={12} md={8}>
-          <StatisticsCard />
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <WeeklyOverview />
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <TotalEarning />
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <Grid container spacing={6}>
-            <Grid item xs={6}>
-              <CardStatisticsVerticalComponent
-                stats='$25.6k'
-                icon={<Poll />}
-                color='success'
-                trendNumber='+42%'
-                title='Total Profit'
-                subtitle='Weekly Profit'
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CardStatisticsVerticalComponent
-                stats='$78'
-                title='Refunds'
-                trend='negative'
-                color='secondary'
-                trendNumber='-15%'
-                subtitle='Past Month'
-                icon={<CurrencyUsd />}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CardStatisticsVerticalComponent
-                stats='862'
-                trend='negative'
-                trendNumber='-18%'
-                title='New Project'
-                subtitle='Yearly Project'
-                icon={<BriefcaseVariantOutline />}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CardStatisticsVerticalComponent
-                stats='15'
-                color='warning'
-                trend='negative'
-                trendNumber='-18%'
-                subtitle='Last Week'
-                title='Sales Queries'
-                icon={<HelpCircleOutline />}
-              />
-            </Grid>
+
+    <Grid container spacing={6}>
+      <Alerta />
+        {courts && courts.map((court) => {
+          {console.log('AVAILABLE: ' + court.isAvailable + ' STARTED: ' + court.isStarted);}
+            return(
+              <Grid item xs={12} sm={6} md={4}>
+                {court.isAvailable && !court.isStarted &&
+                    <CardUserHome
+                      id = {court.id}
+                      name={court.name}
+                      img='Pista2.png'
+                      route='/pages/court/'
+                      customer={userService.userValue?.Customer}
+                      plan={court.Plans}
+                    />
+                }
+                {!court.isAvailable && !court.isStarted &&
+                   <CardStatisticsVerticalComponent
+                    id = {court.id}
+                    stats='$25.6k'
+                    icon={<Poll />}
+                    color='success'
+                    trendNumber='+42%'
+                    title={court.name}
+                    subtitle='CALENTANDO'
+                  />
+                }
+                {!court.isAvailable && court.isStarted &&
+                   <CardStatisticsVerticalComponent
+                    id = {court.id}
+                    stats='$25.6k'
+                    icon={<Poll />}
+                    color='success'
+                    trendNumber='+42%'
+                    title={court.name}
+                    subtitle='JUGANDO'
+                  />
+                }
+              </Grid>
+            );
+          })}
+        {courts && !courts.length &&
+          <Grid item xs={12} sm={6} md={4}>
+            "No courts to display on"
           </Grid>
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <SalesByCountries />
-        </Grid>
-        <Grid item xs={12} md={12} lg={8}>
-          <DepositWithdraw />
-        </Grid>
-        <Grid item xs={12}>
-          <Table />
-        </Grid>
-      </Grid>
-    </ApexChartWrapper>
+        }
+        {!courts && loading &&
+          <Grid item xs={12} sm={6} md={4}>
+            Loading data.. please wait
+          </Grid>
+        }
+    </Grid>
   )
 }
 

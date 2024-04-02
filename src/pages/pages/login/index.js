@@ -59,7 +59,9 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
   }
 }))
 
+
 const LoginPage = () => {
+
   // ** State
   const [values, setValues] = useState({
     password: '',
@@ -94,8 +96,12 @@ const LoginPage = () => {
                 //alertService.success('Login successful', true);
 
               if(userService.isAdmin() === true){
-                  router.push(returnUrl);
+                  console.log('redirecting to admin')
+                  alertService.clear();
+                  router.push('/admin/');
               }else{
+                  console.log('redirecting to home')
+                  alertService.clear();
                   router.push(returnUrl);
               }
 
